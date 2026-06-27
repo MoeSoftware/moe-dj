@@ -129,5 +129,3 @@ Config.Brand = {
 Config.AllowedHosts = {
     'youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com', 'youtu.be',
 }
-Config.AllowDirectAudio = true
-Config.DirectAudioExtensions = { '.mp3', '.ogg', '.wav', '.m3u8', '.aac', '.flac' }

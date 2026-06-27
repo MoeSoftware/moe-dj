@@ -221,7 +221,7 @@ local function youtubeVideoId(url)
         or url:match('/shorts/([%w_%-]+)')
 end
 
--- Returns sourceType ('youtube'|'direct') or nil if disallowed.
+-- Returns 'youtube' for an allowed single-video YouTube link, or nil.
 local function classifyUrl(url)
     if type(url) ~= 'string' or not url:match('^https?://') then return nil end
     local host = hostOf(url)
@@ -230,12 +230,6 @@ local function classifyUrl(url)
             -- only accept YT links that resolve to a single video; bare
             -- playlist/channel URLs are expanded client-side before they get here
             if host:find('youtu') then return youtubeVideoId(url) and 'youtube' or nil end
-        end
-    end
-    if Config.AllowDirectAudio then
-        local path = url:gsub('%?.*$', ''):lower()
-        for _, ext in ipairs(Config.DirectAudioExtensions) do
-            if path:sub(-#ext) == ext then return 'direct' end
         end
     end
     return nil

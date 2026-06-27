@@ -484,7 +484,7 @@
         const tokens = ($('paste-input').value || '')
             .split(/[\s,]+/).map((s) => s.trim()).filter((s) => /^https?:\/\//i.test(s));
         if (!tokens.length) { $('paste-status').textContent = 'No links found — paste a URL.'; return; }
-        const direct = [];
+        const singles = [];
         tokens.forEach((url) => {
             if (/youtube\.com\/playlist\?/i.test(url) && /[?&]list=/i.test(url)) {
                 $('paste-status').textContent = 'Expanding playlist…';
@@ -493,12 +493,12 @@
                     $('paste-status').textContent = 'Added ' + urls.length + ' from playlist.';
                 });
             } else {
-                direct.push(url);
+                singles.push(url);
             }
         });
-        if (direct.length) {
-            nui('jukeboxAddLinks', { urls: direct });
-            $('paste-status').textContent = 'Added ' + direct.length + ' link(s). Paste more, or Done.';
+        if (singles.length) {
+            nui('jukeboxAddLinks', { urls: singles });
+            $('paste-status').textContent = 'Added ' + singles.length + ' link(s). Paste more, or Done.';
         }
         $('paste-input').value = '';
         $('paste-input').focus();

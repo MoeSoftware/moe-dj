@@ -1,6 +1,6 @@
 /*
-  Moe DJ — audio engine. One instance per booth, two backends (YouTube IFrame +
-  HTML5 <audio>). Volume in is always 0..1 from Lua. app.js sets onMeta/onError.
+  Moe DJ — audio engine. One YouTube IFrame player per booth. Volume in is always
+  0..1 from Lua. app.js sets onMeta/onError.
 */
 const Audio = (() => {
     const pool = document.getElementById('audio-pool');
@@ -28,39 +28,15 @@ const Audio = (() => {
         return m ? m[1] : null;
     }
 
-    function fileName(url) {
-        try { return decodeURIComponent(url.split('/').pop().split('?')[0]) || null; } catch (e) { return null; }
-    }
-
     function destroyInstance(inst) {
         if (!inst) return;
         try {
-            if (inst.type === 'youtube' && inst.player && inst.player.destroy) inst.player.destroy();
-            else if (inst.type === 'direct' && inst.el) { inst.el.pause(); inst.el.remove(); }
+            if (inst.player && inst.player.destroy) inst.player.destroy();
         } catch (e) { /* swallow — teardown should never throw */ }
         if (inst.node && inst.node.parentNode) inst.node.parentNode.removeChild(inst.node);
     }
 
     function clamp01(v) { v = Number(v) || 0; return v < 0 ? 0 : v > 1 ? 1 : v; }
-
-    // -------------------- DIRECT (HTML5 audio) --------------------
-    function loadDirect(id, url, seek, volume, paused) {
-        const el = document.createElement('audio');
-        el.preload = 'auto';
-        el.src = url;
-        el.volume = clamp01(volume);
-        pool.appendChild(el);
-        const inst = { type: 'direct', url, el, node: el, ready: false, dur: 0 };
-        el.addEventListener('loadedmetadata', () => {
-            inst.ready = true;
-            inst.dur = el.duration || 0;
-            try { el.currentTime = seek || 0; } catch (e) {}
-            if (!paused) el.play().catch(() => {});
-            reportMeta(id, url, { title: fileName(url), duration: inst.dur });
-        });
-        el.addEventListener('error', () => { console.warn('[moe-dj] direct audio failed:', url); reportError(id, url); });
-        return inst;
-    }
 
     // -------------------- YOUTUBE --------------------
     function loadYouTube(id, url, seek, volume, paused) {
@@ -105,45 +81,33 @@ const Audio = (() => {
 
         load(id, sourceType, url, seek, volume, paused) {
             if (instances[id]) { destroyInstance(instances[id]); delete instances[id]; }
-            const inst = sourceType === 'youtube'
-                ? loadYouTube(id, url, seek, volume, paused)
-                : loadDirect(id, url, seek, volume, paused);
-            instances[id] = inst;
+            instances[id] = loadYouTube(id, url, seek, volume, paused);
         },
 
         setVolume(id, volume) {
             const inst = instances[id];
             if (!inst) return;
             const v = clamp01(volume);
-            if (inst.type === 'direct' && inst.el) inst.el.volume = v;
-            else if (inst.type === 'youtube' && inst.ready) inst.player.setVolume(Math.round(v * 100));
-            else if (inst.type === 'youtube') inst.pendingVol = v;
+            if (inst.ready) inst.player.setVolume(Math.round(v * 100));
+            else inst.pendingVol = v;
         },
 
         pause(id) {
             const inst = instances[id];
-            if (!inst) return;
-            if (inst.type === 'direct' && inst.el) inst.el.pause();
-            else if (inst.type === 'youtube' && inst.ready) inst.player.pauseVideo();
+            if (inst && inst.ready) inst.player.pauseVideo();
         },
 
         resume(id, seek) {
             const inst = instances[id];
-            if (!inst) return;
-            if (inst.type === 'direct' && inst.el) { try { inst.el.currentTime = seek; } catch (e) {} inst.el.play().catch(() => {}); }
-            else if (inst.type === 'youtube' && inst.ready) { inst.player.seekTo(seek, true); inst.player.playVideo(); }
+            if (inst && inst.ready) { inst.player.seekTo(seek, true); inst.player.playVideo(); }
         },
 
         sync(id, target, threshold) {
             const inst = instances[id];
             if (!inst || !inst.ready) return;
             threshold = threshold || 2.5;
-            if (inst.type === 'direct' && inst.el) {
-                if (Math.abs(inst.el.currentTime - target) > threshold) inst.el.currentTime = target;
-            } else if (inst.type === 'youtube') {
-                const cur = inst.player.getCurrentTime();
-                if (Math.abs(cur - target) > threshold) inst.player.seekTo(target, true);
-            }
+            const cur = inst.player.getCurrentTime();
+            if (Math.abs(cur - target) > threshold) inst.player.seekTo(target, true);
         },
 
         unload(id) {

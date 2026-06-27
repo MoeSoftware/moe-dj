@@ -1,6 +1,6 @@
 # Moe DJ
 
-A **free, standalone** proximity DJ-booth network for FiveM. Place DJ booths around your map, queue YouTube and direct audio links, and let players hear synced music that fades naturally with distance — all configured **in-game**, with **zero script dependencies**.
+A **free, standalone** proximity DJ-booth network for FiveM. Place DJ booths around your map, queue YouTube links, and let players hear synced music that fades naturally with distance — all configured **in-game**, with **zero script dependencies**.
 
 > Works on **QBCore, Qbox, ESX, or a pure standalone server**. No inventory, target, or voice system required.
 
