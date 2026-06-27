@@ -99,6 +99,7 @@ Notes/limits:
 - YouTube playback uses the **official IFrame API** inside the NUI frame (no audio extraction). Some videos are un-embeddable (age/region/embedding-disabled); these are detected and **auto-skipped** after `Config.EmbedErrorGrace`.
 - Overlapping booth ranges are allowed; place speakers sensibly.
 - Job/grade changes propagate to a player's DJ access within `Config.AccessRefreshInterval` (default 15s) or immediately when a booth is edited.
+- "Audio plays via YouTube's IFrame API; use in accordance with YouTube's Terms and your local content rules.
 
 ## Support
 
