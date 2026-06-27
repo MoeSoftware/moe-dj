@@ -4,6 +4,12 @@ A **free, standalone** proximity DJ-booth network for FiveM. Place DJ booths aro
 
 > Works on **QBCore, Qbox, ESX, or a pure standalone server**. No inventory, target, or voice system required.
 
+<p align="center">
+  <a href="https://discord.gg/MBrU2TZnKc">
+    <img src="https://img.shields.io/badge/Discord-Join%20My%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white" />
+  </a>
+</p>
+
 [![Moe DJ — showcase video](media/showcase.jpg)](https://youtu.be/dVDSA9FNYHg)
 
 *▶ Click the image to watch the showcase.*
