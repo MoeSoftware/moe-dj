@@ -4,6 +4,10 @@ A **free, standalone** proximity DJ-booth network for FiveM. Place DJ booths aro
 
 > Works on **QBCore, Qbox, ESX, or a pure standalone server**. No inventory, target, or voice system required.
 
+[![Moe DJ — showcase video](media/showcase.jpg)](https://youtu.be/dVDSA9FNYHg)
+
+*▶ Click the image to watch the showcase.*
+
 ---
 
 ## Features
@@ -90,7 +94,13 @@ Notes/limits:
 - Overlapping booth ranges are allowed; place speakers sensibly.
 - Job/grade changes propagate to a player's DJ access within `Config.AccessRefreshInterval` (default 15s) or immediately when a booth is edited.
 
+## Support
+
+Moe DJ is free and MIT licensed. If it helps your server, you can support development:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/moesoftware)
+
 ---
 
-Made by **Moe Software** • [Discord](https://discord.gg/jF67XzaNUG) • [More scripts](https://www.moesoftware.com/)
+Made by **Moe Software** • [Discord](https://discord.gg/jF67XzaNUG) • [More scripts](https://www.moesoftware.com/) • [Ko-fi](https://ko-fi.com/moesoftware)
 MIT licensed.
