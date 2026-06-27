@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="screen.css" />
+</head>
+<body>
+    <div id="screen" class="idle display">
+        <div class="glow"></div>
+
+        <!-- ===== DISPLAY MODE: passive now-playing ===== -->
+        <div id="view-display">
+            <header class="row">
+                <div class="booth"><span class="dot"></span><span id="booth">Moe DJ</span></div>
+                <div id="badge" class="badge">IDLE</div>
+            </header>
+            <main class="body">
+                <div id="eq" class="eq">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="marquee"><div id="title" class="title">No music playing</div></div>
+                <div id="sub" class="sub"></div>
+            </main>
+            <footer class="bar">
+                <div class="track"><div id="fill" class="fill"></div></div>
+                <div class="time"><span id="elapsed">0:00</span><span id="duration">--:--</span></div>
+            </footer>
+        </div>
+
+        <!-- ===== PANEL MODE: interactive ===== -->
+        <div id="view-panel">
+            <header class="prow">
+                <span class="pname" id="p-booth">Booth</span>
+                <button class="pbtn x" data-act="exit" title="Exit"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </header>
+
+            <div class="pnow">
+                <div class="ptitle" id="p-title">Nothing playing</div>
+                <div class="ptrack"><div id="p-fill" class="fill"></div></div>
+            </div>
+
+            <div class="pctl">
+                <button class="pbtn" data-act="play"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+                <button class="pbtn" data-act="pause"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+                <button class="pbtn" data-act="skip"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l9 7-9 7zM17 5h2.2v14H17z"/></svg></button>
+                <button class="pbtn danger" data-act="stop"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="6.5" width="11" height="11" rx="1.6"/></svg></button>
+                <span class="vol">
+                    <button class="pbtn sm" data-act="volDown" title="Volume down"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+                    <span class="vval" id="p-vol">80%</span>
+                    <button class="pbtn sm" data-act="volUp" title="Volume up"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+                </span>
+            </div>
+
+            <div class="prow2">
+                <button class="padd icon-text" data-act="add"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add a link</button>
+                <button class="pqueuebtn icon-text" data-act="queue"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg> Queue · <span id="p-qcount">0</span></button>
+            </div>
+
+            <div class="pnext">
+                <span class="pnext-l">UP NEXT</span>
+                <span id="p-next" class="pnext-t">—</span>
+            </div>
+        </div>
+
+        <div id="cursor"></div>
+    </div>
+
+    <script src="screen.js"></script>
+</body>
+</html>

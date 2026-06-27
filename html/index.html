@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moe DJ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- Hidden audio backends live here; never visible to the player. -->
+    <div id="audio-pool" aria-hidden="true"></div>
+
+    <div id="manager" class="card wide hidden">
+        <header class="card-head">
+            <div class="title"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2.3"/><circle cx="9" cy="16" r="2.3"/></svg> Moe DJ — Booth Manager</div>
+            <button class="icon-btn" id="mgr-close" title="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </header>
+        <div id="mgr-body"></div>
+        <footer class="brand" id="mgr-brand"></footer>
+    </div>
+
+    <!-- Jukebox "add links" overlay (real text box for pasting) -->
+    <div id="paste" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-title">Add links to the jukebox</div>
+            <div class="hint" style="margin-bottom: 10px;">
+                Paste a link and press <b>Enter</b>. Paste several at once (one per line or space-separated)
+                to add them all. YouTube, YouTube playlists, and direct audio links all work.
+            </div>
+            <textarea id="paste-input" rows="3" placeholder="Paste link(s) here…"></textarea>
+            <div id="paste-status" class="hint" style="margin: 8px 0;"></div>
+            <div class="modal-actions">
+                <button class="btn-sm" id="paste-done">Done</button>
+                <button class="primary" id="paste-add">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jukebox queue manager (pops out from the screen for comfortable editing) -->
+    <div id="queueui" class="modal-overlay hidden">
+        <div class="modal-card wideq">
+            <div class="qm-head">
+                <div class="modal-title" style="margin:0;">Queue <span id="qm-count" class="qm-count">0</span></div>
+                <div class="qm-actions">
+                    <button class="btn-sm icon-text" id="qm-add"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add links</button>
+                    <button class="primary" id="qm-done">Done</button>
+                </div>
+            </div>
+            <ul id="qm-list" class="qm-list"></ul>
+        </div>
+    </div>
+
+    <!-- In-UI modal (replaces native prompt/confirm/alert) -->
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-title" id="modal-title"></div>
+            <input type="text" id="modal-input" class="hidden" />
+            <div class="modal-actions">
+                <button class="btn-sm" id="modal-cancel">Cancel</button>
+                <button class="primary" id="modal-ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- /djscreen alignment sidebar (display-only; keyboard still drives the game) -->
+    <aside id="djscreen" class="djscreen hidden">
+        <div class="djs-head">Align screen<span id="djs-model"></span></div>
+        <div class="djs-vals" id="djs-vals"></div>
+        <ul class="djs-keys">
+            <li><kbd>← →</kbd><kbd>↑ ↓</kbd><span>move X / Z</span></li>
+            <li><kbd>PgUp</kbd><kbd>PgDn</kbd><span>forward (Y)</span></li>
+            <li><kbd>[</kbd><kbd>]</kbd><span>width <em>(Shift = height)</em></span></li>
+            <li><kbd>Q</kbd><kbd>E</kbd><span>tilt</span></li>
+            <li><kbd>Z</kbd><kbd>X</kbd><span>turn</span></li>
+            <li><kbd>Enter</kbd><span>print to console</span></li>
+            <li><kbd>Backspace</kbd><span>exit</span></li>
+        </ul>
+    </aside>
+
+    <!-- Official player API (loaded inside CEF; requires server internet access). -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="audio.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
