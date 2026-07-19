@@ -96,6 +96,11 @@ Config.Dui = {
             model   = 'prop_dj_deck_02',
             surface = { x = 0.361, y = 0.190, z = 0.266, w = 1.165, h = 0.590 },
         },
+        {
+            label   = 'Laptop',
+            model   = 'prop_dj_deck_02',
+            surface = { x = 0.361, y = 0.190, z = 0.266, w = 1.165, h = 0.590 },
+        },
         -- Add more models here, e.g.:
         -- {
         --     label   = 'Arcade Machine',

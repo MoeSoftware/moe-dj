@@ -11,7 +11,11 @@
   Panel buttons send actions back to the client via NUI callbacks (fetch).
 */
 (() => {
-    const resName = (() => { try { return GetParentResourceName(); } catch (e) { return 'moe-dj'; } })();
+    // The DUI is loaded from nui://<resource>/..., so location.hostname is the real
+    // resource name — correct even if the folder is renamed (e.g. moe-dj-main from a
+    // GitHub zip). Fall back to GetParentResourceName only if that's unavailable.
+    const resName = location.hostname
+        || (() => { try { return GetParentResourceName(); } catch (e) { return 'moe-dj'; } })();
     const nui = (cb, data) =>
         fetch(`https://${resName}/${cb}`, {
             method: 'POST',
